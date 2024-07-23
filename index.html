@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Betsson Apuesta</title>
+    <style>
+        body {
+            font-family: "Open Sans", Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .input-container {
+            width: 300px;
+            max-height: 100%;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            margin-right: 20px;
+            overflow-y: auto;
+        }
+
+        .input-container::-webkit-scrollbar {
+            width: 8px; /* For WebKit browsers */
+        }
+
+        .input-container::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        .input-container input {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        .input-container label {
+            font-weight: bold;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            padding: 10px;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .scroll-wrapper {
+            max-height: 100%;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .scroll-wrapper::-webkit-scrollbar {
+            width: 8px; /* For WebKit browsers */
+        }
+
+        .scroll-wrapper::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        .cupon {
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cupon-header {
+            padding: 3px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cupon-header img {
+            width: 100%;
+            height: auto;
+        }
+
+        .cupon-footer {
+            width: 100%;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            border-bottom: none; /* Eliminando el borde inferior */
+        }
+
+        .footer-item {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            color: #040406DE;
+            font: 12px "Open Sans", Arial, sans-serif;
+			padding: 1px;
+        }
+
+        #cuota {
+            font-weight: bold;
+        }
+
+        .cupon-body {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .apuestas-cuotas {
+        }
+
+        .apuesta {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            background-color: #f7f7f7;
+        }
+
+        .estado {
+            padding: 4px 6px;
+            border-radius: 8px;
+            color: white;
+            background-color: #61AA00;
+            margin-bottom: 10px;
+            font-family: Open Sans, Arial, sans-serif;
+            font-weight: 600;
+            line-height: 120%;
+            font-size: 10px;
+            text-transform: Uppercase;
+            width: 43px;
+        }
+
+        .apuesta-info {
+            flex-grow: 1;
+            font: "Open Sans", Arial, sans-serif;
+        }
+
+        .cuota {
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: right;
+            font: 14px "Open Sans", Arial, sans-serif;
+        }
+
+        .ganador {
+            font: 14px "Open Sans", Arial, sans-serif;
+            font-weight: 600;
+            line-height: 120%;
+            font-size: 14px;
+            color: #040406DE;
+        }
+
+        .liga {
+            font-family: Open Sans, Arial, sans-serif;
+            font-weight: 400;
+            line-height: 120%;
+            font-size: 10px;
+            color: #040406B3;
+            padding-top: 8px;
+        }
+
+        .partido {
+            font-family: Open Sans, Arial, sans-serif;
+            font-weight: 400;
+            line-height: 120%;
+            font-size: 12px;
+            color: #040406;
+        }
+
+        .apuesta {
+            display: flex;
+            flex-direction: column;
+			margin-bottom: 2px;
+        }
+
+        .apuesta-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #hola {
+            color: #040406;
+        }
+
+        #resultado {
+            font-family: Open Sans, Arial, sans-serif;
+            font-weight: 600;
+            line-height: 120%;
+            font-size: 10px;
+            color: #04040673;
+            padding-top: 8px;
+        }
+
+        .formulario {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .formulario button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 14px;
+            background-color: #61AA00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .apuesta-input-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-container">
+        <div class="formulario">
+            <label for="apuesta-input">Apuesta (monto):</label>
+            <input type="text" id="apuesta-input" placeholder="Ingrese apuesta: S/">
+            <label for="cuotas-input">Cuota total:</label>
+            <input type="text" id="cuotas-input" placeholder="Ingrese cuota total:">
+            <button onclick="actualizarDatosGenerales()">Actualizar datos generales</button>
+        </div>
+        <div class="apuesta-input-container">
+            <div class="formulario">
+                <label for="tipo-apuesta-1">Apuesta 1:</label>
+                <input type="text" id="tipo-apuesta-1" placeholder="Tipo de apuesta">
+                <input type="text" id="cuota-apuesta-1" placeholder="Cuota 1">
+                <input type="text" id="equipo1-apuesta-1" placeholder="Equipo 1">
+                <input type="text" id="equipo2-apuesta-1" placeholder="Equipo 2">
+                <input type="text" id="liga-apuesta-1" placeholder="Liga">
+            </div>
+            <div class="formulario">
+                <label for="tipo-apuesta-2">Apuesta 2:</label>
+                <input type="text" id="tipo-apuesta-2" placeholder="Tipo de apuesta">
+                <input type="text" id="cuota-apuesta-2" placeholder="Cuota 1">
+                <input type="text" id="equipo1-apuesta-2" placeholder="Equipo 1">
+                <input type="text" id="equipo2-apuesta-2" placeholder="Equipo 2">
+                <input type="text" id="liga-apuesta-2" placeholder="Liga">
+            </div>
+            <div class="formulario">
+                <label for="tipo-apuesta-3">Apuesta 3:</label>
+                <input type="text" id="tipo-apuesta-3" placeholder="Tipo de apuesta">
+                <input type="text" id="cuota-apuesta-3" placeholder="Cuota 1">
+                <input type="text" id="equipo1-apuesta-3" placeholder="Equipo 1">
+                <input type="text" id="equipo2-apuesta-3" placeholder="Equipo 2">
+                <input type="text" id="liga-apuesta-3" placeholder="Liga">
+            </div>
+            <div class="formulario">
+                <label for="tipo-apuesta-4">Apuesta 4:</label>
+                <input type="text" id="tipo-apuesta-4" placeholder="Tipo de apuesta">
+                <input type="text" id="cuota-apuesta-4" placeholder="Cuota 1">
+                <input type="text" id="equipo1-apuesta-4" placeholder="Equipo 1">
+                <input type="text" id="equipo2-apuesta-4" placeholder="Equipo 2">
+                <input type="text" id="liga-apuesta-4" placeholder="Liga">
+            </div>
+            <button onclick="actualizarDatosApuesta()">Actualizar datos de apuesta</button>
+        </div>
+    </div>
+    <div class="contenedor">
+        <div class="scroll-wrapper">
+            <div class="cupon">
+                <div class="cupon-header">
+                    <img src="https://cdnroute.bpsgameserver.com/v3/bgr/Betsson/Sportsbook/neutral/image/2018/12/common.brand-logo_v3.png" alt="Betsson">
+                    <div class="cupon-footer">
+                        <div class="footer-item" id="apuesta">
+                            <span>Apuesta:</span>
+                            <span id="apuesta-valor">S/ 0.00</span>
+                        </div>
+                        <div class="footer-item" id="cuota">
+                            <span>Cuotas totales:</span>
+                            <span id="cuota-valor">0.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cupon-body">
+                    <div class="apuestas-cuotas">
+                        <div class="apuesta ganada">
+                            <span class="estado">GANADA</span>
+                            <div class="datos-apuesta">
+                                <div class="apuesta-info">
+                                    <div id="ganador-1" class="ganador"></div>
+                                    <div class="cuota" id="cuota-1">2.32</div>
+                                </div>
+                                <div id="liga-1" class="liga">Fútbol / Inglaterra FA Cup</div>
+                                <div id="partido-1-1" class="partido">Brentford </div>
+                                <div id="partido-2-1" class="partido">Wolves</div>
+                                <div id="resultado">RESULTADO FINAL</div>
+                            </div>            
+                        </div>
+                        <div class="apuesta ganada">
+                            <span class="estado">GANADA</span>
+                            <div class="datos-apuesta">
+                                <div class="apuesta-info">
+                                    <div id="ganador-2" class="ganador"></div>
+                                    <div class="cuota" id="cuota-2">2.48</div>
+                                </div>
+                                <div id="liga-2" class="liga">Fútbol / Inglaterra FA Cup</div>
+                                <div id="partido-1-2" class="partido">Crystal Palace</div>
+                                <div id="partido-2-2" class="partido">Everton</div>
+                                <div id="resultado">RESULTADO FINAL</div>
+                            </div>        
+                        </div>
+                        <div class="apuesta ganada">
+                            <span class="estado">GANADA</span>
+                            <div class="datos-apuesta">
+                                <div class="apuesta-info">
+                                    <div id="ganador-3" class="ganador"></div>
+                                    <div class="cuota" id="cuota-3">1.48</div>
+                                </div>
+                                <div id="liga-3" class="liga">Fútbol / Inglaterra FA Cup</div>
+                                <div id="partido-1-3" class="partido">Tottenham</div>
+                                <div id="partido-2-3" class="partido">Burnley</div>
+                                <div id="resultado">RESULTADO FINAL</div>
+                            </div>
+                        </div>
+                        <div class="apuesta ganada">
+                            <span class="estado">GANADA</span>
+                            <div class="datos-apuesta">
+                                <div class="apuesta-info">
+                                    <div id="ganador-4" class="ganador"></div>
+                                    <div class="cuota" id="cuota-4">1.68</div>
+                                </div>
+                                <div id="liga-4" class="liga">Fútbol / España - La Liga</div>
+                                <div id="partido-1-4" class="partido">Osasuna</div>
+                                <div id="partido-2-4" class="partido">Almería CF</div>
+                                <div id="resultado">RESULTADO FINAL</div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function actualizarDatosGenerales() {
+            var apuesta = document.getElementById("apuesta-input").value;
+            var cuotas = document.getElementById("cuotas-input").value;
+            document.getElementById("apuesta-valor").innerText = "S/ " + apuesta;
+            document.getElementById("cuota-valor").innerText = cuotas;
+        }
+
+        function actualizarDatosApuesta() {
+            var tipoApuesta1 = document.getElementById("tipo-apuesta-1").value;
+            var cuotaApuesta1 = document.getElementById("cuota-apuesta-1").value;
+            var equipo1Apuesta1 = document.getElementById("equipo1-apuesta-1").value;
+            var equipo2Apuesta1 = document.getElementById("equipo2-apuesta-1").value;
+            var ligaApuesta1 = document.getElementById("liga-apuesta-1").value;
+
+            var tipoApuesta2 = document.getElementById("tipo-apuesta-2").value;
+            var cuotaApuesta2 = document.getElementById("cuota-apuesta-2").value;
+            var equipo1Apuesta2 = document.getElementById("equipo1-apuesta-2").value;
+            var equipo2Apuesta2 = document.getElementById("equipo2-apuesta-2").value;
+            var ligaApuesta2 = document.getElementById("liga-apuesta-2").value;
+
+            var tipoApuesta3 = document.getElementById("tipo-apuesta-3").value;
+            var cuotaApuesta3 = document.getElementById("cuota-apuesta-3").value;
+            var equipo1Apuesta3 = document.getElementById("equipo1-apuesta-3").value;
+            var equipo2Apuesta3 = document.getElementById("equipo2-apuesta-3").value;
+            var ligaApuesta3 = document.getElementById("liga-apuesta-3").value;
+
+            var tipoApuesta4 = document.getElementById("tipo-apuesta-4").value;
+            var cuotaApuesta4 = document.getElementById("cuota-apuesta-4").value;
+            var equipo1Apuesta4 = document.getElementById("equipo1-apuesta-4").value;
+            var equipo2Apuesta4 = document.getElementById("equipo2-apuesta-4").value;
+            var ligaApuesta4 = document.getElementById("liga-apuesta-4").value;
+
+            document.getElementById("ganador-1").innerText = tipoApuesta1;
+            document.getElementById("cuota-1").innerText = cuotaApuesta1;
+            document.getElementById("liga-1").innerText = ligaApuesta1;
+            document.getElementById("partido-1-1").innerText = equipo1Apuesta1;
+            document.getElementById("partido-2-1").innerText = equipo2Apuesta1;
+
+            document.getElementById("ganador-2").innerText = tipoApuesta2;
+            document.getElementById("cuota-2").innerText = cuotaApuesta2;
+            document.getElementById("liga-2").innerText = ligaApuesta2;
+            document.getElementById("partido-1-2").innerText = equipo1Apuesta2;
+            document.getElementById("partido-2-2").innerText = equipo2Apuesta2;
+
+            document.getElementById("ganador-3").innerText = tipoApuesta3;
+            document.getElementById("cuota-3").innerText = cuotaApuesta3;
+            document.getElementById("liga-3").innerText = ligaApuesta3;
+            document.getElementById("partido-1-3").innerText = equipo1Apuesta3;
+            document.getElementById("partido-2-3").innerText = equipo2Apuesta3;
+
+            document.getElementById("ganador-4").innerText = tipoApuesta4;
+            document.getElementById("cuota-4").innerText = cuotaApuesta4;
+            document.getElementById("liga-4").innerText = ligaApuesta4;
+            document.getElementById("partido-1-4").innerText = equipo1Apuesta4;
+            document.getElementById("partido-2-4").innerText = equipo2Apuesta4;
+        }
+    </script>
+</body>
+</html>

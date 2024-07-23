@@ -1,0 +1,23 @@
+.content-container {
+    -webkit-text-size-adjust: 100%;
+    --mat-badge-text-font: Open Sans, "Arial", "sans-serif";
+    --mat-badge-text-size: 12px;
+    --mat-badge-text-weight: 600;
+    --mat-badge-small-size-text-size: 9px;
+    --mat-badge-large-size-text-size: 24px;
+    /* ... (continúa con todos los estilos proporcionados) */
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: normal;
+    font-family: var(--genos-font-family-main);
+    font-size: var(--genos-base-font-size);
+    --obg-m-sidenav-end-margin: 0px;
+    color: var(--mat-sidenav-content-text-color);
+    --obg-m-sidenav-start-margin: -230px;
+    /* ... */
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 100%;
+    width: 100%;
+    padding-right: var(--genos-spacing-xl);
+}
